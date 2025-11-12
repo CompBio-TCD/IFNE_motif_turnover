@@ -1,1 +1,36 @@
-# IFNE_motif_turnover
+# IFNE promoter motif turnover & hormone-modulation: analysis skeleton
+
+This repository is a **ready-to-run** scaffold to quantify **motif turnover** across mammals in the *IFNE* promoter and relate it to **hormone modulation**.
+It standardizes FIMO scans (PGR/AR/ER, ETS, Sp1, NF-κB, GATA, IRFs), computes **composite modules** (e.g., half-PRE ± ETS within a spacing window), and
+derives **gain/loss** across a phylogeny, with figures (heatmaps & lollipop maps).
+
+> You will need the **MEME Suite** (FIMO) installed locally and motif PWMs (JASPAR/HOCOMOCO). This skeleton does **not** download or run FIMO here.
+
+## Quick start
+
+1. Place species promoter FASTAs in `data/fasta/`, one FASTA per species (e.g., `human.fa`, `mouse.fa`). Each FASTA should contain the **−1000..+100 bp** window relative to the species' TSS.
+2. Put PWM motif files (JASPAR/HOCOMOCO MEME-format) into `motifs/`. You can symlink or copy.
+3. (Optional) Build species-specific **Markov background** models (order=1) and save to `data/background/<species>.bg`. Otherwise, FIMO will estimate background.
+4. Edit `config/config.yaml` with your species list, paths, thresholds, and composite spacing rules.
+5. Run scans:
+   ```bash
+   bash scripts/scan_all.sh
+   ```
+6. Open the notebook:
+   ```bash
+   jupyter lab notebooks/IFNE_motif_turnover.ipynb
+   ```
+7. The notebook parses FIMO TSVs from `data/fimo_out/`, builds the composite module table (e.g., half-PRE + ETS within 5–50 bp), and produces publication-ready plots.
+
+## Included motifs (suggested JASPAR IDs)
+- **Steroid receptors**: PGR/NR3C3, AR/NR3C4, ESR1/ESR2 (ERE)
+- **Partners**: ETS1/ELK1/ELF3 (ETS family), SP1, JUN/FOS (AP-1), NFKB1/RELA, GATA2/GATA3, IRF1/IRF7/IRF9
+
+See `motifs/MOTIF_CATALOG.md` for a starter list of IDs.
+
+## Reproducibility notes
+- Primary threshold: `p <= 1e-4` and BH `q <= 0.05`; sensitivity at `q <= 0.2`.
+- Composite spacing bins: `0–10`, `10–30`, `30–60` bp (configurable).
+- Background: prefer **species-specific 1st-order Markov** built from each promoter set.
+
+_Last updated: 2025-11-12_

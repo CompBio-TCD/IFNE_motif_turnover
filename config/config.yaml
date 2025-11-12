@@ -1,0 +1,55 @@
+# Analysis configuration
+species:
+  - human
+  - mouse
+  - rat
+  - dog
+  - cow
+  - pig
+  - macaque
+  - marmoset
+
+windows:
+  promoter: [-1000, 100]   # relative to TSS (bp)
+  core: [-250, 50]
+
+motifs:
+  # Paths (MEME format PWMs). Place files in motifs/ and set these names.
+  pgr: motifs/PGR_NR3C3.meme
+  ar: motifs/AR_NR3C4.meme
+  er: motifs/ESR_combined.meme     # ESR1/ESR2
+  ets: motifs/ETS_family.meme      # can be a combined file or multiple
+  sp1: motifs/SP1.meme
+  ap1: motifs/AP1.meme             # JUN/FOS
+  nfkB: motifs/NFKB.meme           # RELA/NFKB1
+  gata: motifs/GATA_family.meme
+  irf: motifs/IRF_family.meme
+
+fimo:
+  p_value: 1e-4
+  q_value: 0.05
+  alt_q_value: 0.2
+  background_dir: data/background   # optional; species-specific .bg files (Markov order 1)
+
+composites:
+  # Define composite rules as pairs with spacing in bp (inclusive)
+  - name: halfPRE_plus_ETS
+    anchor_motif: PGR_HALF          # pseudo-motif detected by regex (TGTTCT|AGAACA)
+    partner_motif: ETS
+    min_spacing: 5
+    max_spacing: 60
+  - name: halfPRE_plus_SP1
+    anchor_motif: PGR_HALF
+    partner_motif: SP1
+    min_spacing: 5
+    max_spacing: 60
+  - name: halfPRE_plus_AP1
+    anchor_motif: PGR_HALF
+    partner_motif: AP1
+    min_spacing: 5
+    max_spacing: 60
+
+output:
+  fimo_dir: data/fimo_out
+  figures_dir: analysis/figures
+  tables_dir: analysis/tables
