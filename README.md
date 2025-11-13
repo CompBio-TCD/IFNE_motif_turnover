@@ -9,7 +9,7 @@ It standardizes FIMO scans (PGR/AR/ER, ETS, Sp1, NF-κB, GATA, IRFs), computes *
 
 1. Place species promoter FASTAs in `data/fasta/`, one FASTA per species (e.g., `human.fa`, `mouse.fa`). Each FASTA should contain the **−1000..+100 bp** window relative to the species' TSS.
 2. Put PWM motif files (JASPAR/HOCOMOCO MEME-format) into `motifs/`. You can symlink or copy.
-3. (Optional) Build species-specific **Markov background** models (order=1) and save to `data/background/<species>.bg`. Otherwise, FIMO will estimate background.
+3. (Optional) Build species-specific 1st-order **Markov background** models (order=1) from each promoter set and save to `data/background/<species>.bg`. Otherwise, FIMO will estimate background.
 4. Edit `config/config.yaml` with your species list, paths, thresholds, and composite spacing rules.
 5. Run scans:
    ```bash
@@ -27,9 +27,8 @@ It standardizes FIMO scans (PGR/AR/ER, ETS, Sp1, NF-κB, GATA, IRFs), computes *
 
 See `motifs/MOTIF_CATALOG.md` for a starter list of IDs.
 
-## Reproducibility notes
+## Relevant parameters
 - Primary threshold: `p <= 1e-4` and BH `q <= 0.05`; sensitivity at `q <= 0.2`.
 - Composite spacing bins: `0–10`, `10–30`, `30–60` bp (configurable).
-- Background: prefer **species-specific 1st-order Markov** built from each promoter set.
 
 _Last updated: 2025-11-12_
