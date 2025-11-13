@@ -1,10 +1,9 @@
-# IFNE promoter motif turnover & hormone-modulation: analysis skeleton
+# IFNE promoter motif turnover & hormone-modulation analysis
 
-This repository is a **ready-to-run** scaffold to quantify **motif turnover** across mammals in the *IFNE* promoter and relate it to **hormone modulation**.
-It standardizes FIMO scans (PGR/AR/ER, ETS, Sp1, NF-κB, GATA, IRFs), computes **composite modules** (e.g., half-PRE ± ETS within a spacing window), and
-derives **gain/loss** across a phylogeny, with figures (heatmaps & lollipop maps).
+This repository is a scaffold to quantify **motif turnover** across mammals in the *IFNE* promoter and relate it to **hormone modulation**.
+It standardizes FIMO scans (PGR/AR/ER, ETS, Sp1, NF-κB, GATA, IRFs), computes **composite modules**, and derives **gain/loss** across a phylogeny, with figures (heatmaps & lollipop maps).
 
-> You will need the **MEME Suite** (FIMO) installed locally and motif PWMs (JASPAR/HOCOMOCO). This skeleton does **not** download or run FIMO here.
+> You will need the **MEME Suite** (FIMO) installed locally and motif PWMs (JASPAR/HOCOMOCO). The code does **not** download or run FIMO here.
 
 ## Quick start
 
