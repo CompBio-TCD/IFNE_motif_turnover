@@ -33,8 +33,8 @@ def to_table(rows, q_thresh=0.05):
             "strand": r.get("strand","."),
             "start": int(r.get("start","0")),
             "end": int(r.get("stop") or r.get("end") or r.get("stop","0")),
-            "p_value": float(r.get("p-value","1")),
-            "q_value": float(r.get("q-value","1")),
+            "p_value": float(r.get("p-value","1") or 1),
+            "q_value": float(r.get("q-value","1") or 1),
             "matched_sequence": r.get("matched_sequence","").upper(),
             "score": float(r.get("score","0")),
         })
