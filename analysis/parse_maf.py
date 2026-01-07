@@ -8,6 +8,17 @@ from Bio.SeqRecord import SeqRecord
 
 def parse_args():
     parser = argparse.ArgumentParser(
+nleathlm@jupyterhub:~/workspace/ifne/analysis$ more parse_maf.py 
+import argparse
+import os
+from collections import defaultdict
+from Bio import AlignIO, SeqIO
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
         description="Convert MAF to one gap-free FASTA per species (one record per chromosome)."
     )
     parser.add_argument(
@@ -32,6 +43,7 @@ def main():
     print("MAF file:", maf_file)
     print("Output directory:", outdir)
 
+    # Explicitly create output directory
     os.makedirs(outdir, exist_ok=True)
 
     # species -> chrom -> list of sequence chunks
@@ -50,11 +62,11 @@ def main():
 
             species_chrom_seqs[species][chrom].append(seq_str)
 
-    # One FASTA per species
+    # Write one FASTA per species
     for species, chrom_dict in species_chrom_seqs.items():
         out_fa = os.path.join(outdir, f"{species}.fa")
 
-        #print("Writing:", out_fa) 
+        print("Writing:", out_fa)  # <-- hard diagnostic
 
         with open(out_fa, "w") as out_handle:
             for chrom, chunks in chrom_dict.items():
