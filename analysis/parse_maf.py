@@ -8,17 +8,6 @@ from Bio.SeqRecord import SeqRecord
 
 def parse_args():
     parser = argparse.ArgumentParser(
-nleathlm@jupyterhub:~/workspace/ifne/analysis$ more parse_maf.py 
-import argparse
-import os
-from collections import defaultdict
-from Bio import AlignIO, SeqIO
-from Bio.Seq import Seq
-from Bio.SeqRecord import SeqRecord
-
-
-def parse_args():
-    parser = argparse.ArgumentParser(
         description="Convert MAF to one gap-free FASTA per species (one record per chromosome)."
     )
     parser.add_argument(
