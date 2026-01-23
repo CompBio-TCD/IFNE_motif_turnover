@@ -14,7 +14,7 @@ mkdir -p "${outdir}"
 PVAL="$(python -c 'import yaml,sys; print(yaml.safe_load(open("config/config.yaml"))["fimo"]["p_value"])')"
 # If you don't have python-yaml, set PVAL manually above.
 
-cmd=(fimo --verbosity 1 --text --thresh "${PVAL}")
+cmd=(fimo --verbosity 1 --thresh "${PVAL}")
 if [[ -n "${bg}" && -f "${bg}" ]]; then
   cmd+=( --bgfile "${bg}" )
 fi
