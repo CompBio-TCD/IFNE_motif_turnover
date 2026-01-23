@@ -50,6 +50,6 @@ composites:
     max_spacing: 60
 
 output:
-  fimo_dir: data/fimo_out
-  figures_dir: analysis/figures
-  tables_dir: analysis/tables
+  fimo_dir: ../analysis/fimo_out
+  figures_dir: ../analysis/figures
+  tables_dir: ../analysis/tables
