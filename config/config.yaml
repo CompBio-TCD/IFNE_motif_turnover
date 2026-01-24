@@ -29,7 +29,7 @@ fimo:
   p_value: 1e-4
   q_value: 0.05
   alt_q_value: 0.2
-  background_dir: data/background   # optional; species-specific .bg files (Markov order 1)
+  background_dir: analysis/bg0   # optional; species-specific .bg files (Markov order 1)
 
 composites:
   # Define composite rules as pairs with spacing in bp (inclusive)
