@@ -102,7 +102,7 @@ def plot_tree_and_multi_heatmaps(
     cax = ims[-1][0]
     fig.colorbar(ims[-1][1], ax=[ax for ax, _, _ in ims], label="-log10(p)")
 
-    plt.savefig(out_png, dpi=400)
+    plt.savefig(out_png, dpi=600)
     plt.close()
     print(f"[tree+multi] wrote {out_png}")
 
@@ -645,8 +645,8 @@ plot_tree_and_multi_heatmaps(
     id_to_common=id_to_common,
     tf_order=tfs_to_plot,
     max_tfs=len(tfs_to_plot),
-    width_tree=1.0,
-    width_tf=1.4,               #  TF panel size 
+    width_tree=5,
+    width_tf=1.6,               #  TF panel size 
     show_tree_tip_labels=False,
     global_vmax=None            # or set e.g. 20 for consistent scaling
 )
