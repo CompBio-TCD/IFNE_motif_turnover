@@ -15,7 +15,7 @@ bg="${6:-}"
 
 mkdir -p "${outdir}"
 
-# Read p-value threshold from config (fallback if yaml not available)
+# ---- thresholds from config ----
 PVAL="$(python - <<'PY'
 import yaml
 print(yaml.safe_load(open("../config/config.yaml"))["fimo"].get("p_value","1e-3"))
@@ -23,16 +23,34 @@ PY
  2>/dev/null || true)"
 PVAL="${PVAL:-1e-3}"
 
+# ---- background: auto-generate if not supplied ----
+# cache backgrounds here
+BG_DIR="../analysis/bg0"
+mkdir -p "${BG_DIR}"
+
+if [[ -z "${bg}" ]]; then
+  bg="${BG_DIR}/${species}.bg"
+fi
+
+if [[ ! -f "${bg}" ]]; then
+  if ! command -v fasta-get-markov >/dev/null 2>&1; then
+    echo "[run_fimo] ERROR: fasta-get-markov not found, cannot generate background ${bg}" >&2
+    echo "[run_fimo] Install MEME-suite (or add fasta-get-markov to PATH), or pass an existing bg file as arg6." >&2
+    exit 1
+  fi
+  #echo "[run_fimo] Generating 0th-order background: ${bg} from ${fasta}"
+  #fasta-get-markov -m 0 "${fasta}" "${bg}"
+  echo "[run_fimo] Generating 1st-order background: ${bg} from ${fasta}"
+  fasta-get-markov -m 1 "${fasta}" "${bg}"
+fi
+
 motif_base="$(basename "${motifs%.*}")"
 run_dir="${outdir}/.fimo_tmp_${species}__${source}__${motif_base}"
 
 rm -rf "${run_dir}"
 mkdir -p "${run_dir}"
 
-cmd=(fimo --verbosity 1 --thresh "${PVAL}" --oc "${run_dir}")
-if [[ -n "${bg}" && -f "${bg}" ]]; then
-  cmd+=( --bgfile "${bg}" )
-fi
+cmd=(fimo --verbosity 1 --thresh "${PVAL}" --oc "${run_dir}" --bgfile "${bg}")
 cmd+=( "${motifs}" "${fasta}" )
 
 "${cmd[@]}"
@@ -61,3 +79,4 @@ mv "${clean_tmp}" "${out_tsv}"
 rm -rf "${run_dir}"
 
 echo "[run_fimo] Wrote ${out_tsv}"
+echo "[run_fimo] Used bg: ${bg}"
