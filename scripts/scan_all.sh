@@ -15,11 +15,11 @@ for fasta in ../data/fasta/*.fa ../data/fasta/*.fasta; do
       [[ -e "$motif" ]] || continue
 
       bg_file="${BG_DIR}/${species}.bg"
-      if [[ -f "${bg_file}" ]]; then
+      #if [[ -f "${bg_file}" ]]; then
         bash run_fimo.sh "${species}" "${source}" "${motif}" "${fasta}" "${FIMO_DIR}" "${bg_file}"
-      else
-        bash run_fimo.sh "${species}" "${source}" "${motif}" "${fasta}" "${FIMO_DIR}"
-      fi
+      #else
+        #bash run_fimo.sh "${species}" "${source}" "${motif}" "${fasta}" "${FIMO_DIR}"
+      #fi
     done
   done
 done
