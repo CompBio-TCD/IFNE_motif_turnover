@@ -17,7 +17,7 @@ def plot_tree_and_multi_heatmaps(
     out_png,
     id_to_common=None,
     tf_order=None,
-    max_tfs=len(tfs_to_plot),            # e.g. 2 for ESR1 + PGR
+    max_tfs=2,            # e.g. 2 for ESR1 + PGR
     width_tree=1.0,
     width_tf=1.6,         # smaller = skinnier panels
     show_tree_tip_labels=False,
@@ -29,6 +29,13 @@ def plot_tree_and_multi_heatmaps(
     """
     tfs = list(M_by_tf.keys()) if tf_order is None else [t for t in tf_order if t in M_by_tf]
     tfs = tfs[:max_tfs]
+
+    PLACENTAL_EXCLUDE = {
+        "monDom5",   # opossum
+        "macEug2",   # wallaby
+        "sarHar1",   # Tasmanian devil
+        "ornAna1",   # platypus
+    }
 
     # Common labels
     if id_to_common:
@@ -555,7 +562,7 @@ print(f"Loaded {len(fimo_rows)} TF-call rows for {TF_NAME}")
 print("Example row:", fimo_rows[0] if fimo_rows else "None")
 
 # -------------------------------
-# 3. GET TREE ORDER (THIS WAS MISSING BEFORE)
+# 3. GET TREE ORDER 
 # -------------------------------
 
 tree_path = "/home/nleathlm/workspace/ifne/data/trees/hg38_100way.nh"
@@ -611,16 +618,6 @@ COMMON_NAME_OVERRIDES = {
 # Apply overrides (override JSON mapping)
 id_to_common.update(COMMON_NAME_OVERRIDES)
 
-#plt.figure(figsize=(12, 0.35 * len(ordered_species)))
-#masked = np.ma.masked_invalid(M)
-#plt.imshow(masked, aspect="auto", interpolation="nearest")
-#plt.yticks(range(len(ordered_species)), common_labels)
-#plt.xlabel("Alignment column (IFNE promoter alignment)")
-#plt.colorbar(label=f"-log10(p) ({TF_NAME} motif)")
-#plt.tight_layout()
-#plt.savefig("/home/nleathlm/workspace/ifne/analysis/figures/ifne_pgr_alignment_heatmap_tree_order.png", dpi=200)
-#plt.close()
-
 print("[heatmap] wrote tree-ordered alignment heatmap")
 
 # -------------------------------
@@ -628,7 +625,7 @@ print("[heatmap] wrote tree-ordered alignment heatmap")
 # -------------------------------
 
 # Build M matrices for the TFs you want
-tfs_to_plot = ["ESR1", "PGR"]
+tfs_to_plot = ["ESR1", "PGR","ELF1","ELF3"]
 
 # Map all TF hits to the alignment
 scores_by_tf = map_hits_to_alignment_by_tf(
@@ -666,6 +663,3 @@ if P is not None:
         P, tf_list, ylabels,
         "/home/nleathlm/workspace/ifne/analysis/figures/ifne_presence_species_by_TF.png"
     )
-
-#plot_tree_and_heatmap_biophylo("/home/nleathlm/workspace/ifne/data/trees/hg38_100way.nh",ordered_species,M,"/home/nleathlm/workspace/ifne/analysis/figures/ifne_pgr_tree_alignment_common.png",
-id_to_common=id_to_common)
