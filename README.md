@@ -15,15 +15,25 @@ It standardizes FIMO scans (PGR/AR/ER, ETS, Sp1, NF-κB, GATA, IRFs), computes *
    ```bash
    bash scripts/scan_all.sh
    ```
-6. Open the notebook:
+   The
+   ```python
+   python merge_tf.py
+   ```
+   And finally for plotting:
+   ```python
+   python plot_promoter_alignment.py
+   ```
+7. Open the notebook:
    ```bash
    jupyter lab notebooks/IFNE_motif_turnover.ipynb
    ```
-7. The notebook parses FIMO TSVs from `data/fimo_out/`, builds a composite module table and produces publication-ready plots.
+8. The notebook parses FIMO TSVs from `data/fimo_out/`, builds a composite module table and produces publication-ready plots.
 
 ## Included motifs (suggested JASPAR IDs)
-- **Steroid receptors**: PGR/NR3C3, AR/NR3C4, ESR1/ESR2 (ERE)
-- **Partners**: ETS1/ELK1/ELF3 (ETS family), SP1, JUN/FOS (AP-1), NFKB1/RELA, GATA2/GATA3, IRF1/IRF7/IRF9
+- **Steroid receptors**: PGR/NR3C3, AR/NR3C4, ESR1/ESR2 (ERE), GR
+- **Partners**: SP1, JUN/FOS (AP-1), NFKB1/RELA, GATA2/GATA3
+- **Epithelial program**: ETS1/ELK1/ELF3 (ETS family), GRHL/KLF, TEAD (YAP/TAZ)
+- Confirm absence of IRF/ISRE
 
 See `motifs/MOTIF_CATALOG.md` for a starter list of IDs.
 
