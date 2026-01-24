@@ -11,28 +11,6 @@ def read_table(path):
             rows.append(r)
     return rows
 
-def heatmap_scores(fimo_combined, out_png):
-    # Build species x motif max -log10(p)
-    rows = read_table(fimo_combined)
-    species = sorted(set(r["species"] for r in rows))
-    motifs = sorted(set(r["motif_file"] for r in rows))
-    M = np.zeros((len(species), len(motifs)))
-    for r in rows:
-        i = species.index(r["species"])
-        j = motifs.index(r["motif_file"])
-        p = float(r["p_value"])
-        if p > 0:
-            val = -np.log10(p)
-            M[i,j] = max(M[i,j], val)
-    plt.figure()
-    plt.imshow(M, aspect="auto")
-    plt.xticks(range(len(motifs)), motifs, rotation=90)
-    plt.yticks(range(len(species)), species)
-    plt.colorbar(label="-log10(p) (max per species × motif)")
-    plt.tight_layout()
-    plt.savefig(out_png, dpi=200)
-    plt.close()
-
 def lollipop_composites(composites_tsv, out_png):
     rows = read_table(composites_tsv)
     # simple scatter of distances by partner family
@@ -60,6 +38,5 @@ if __name__ == "__main__":
     ap.add_argument("--figdir", default="analysis/figures")
     args = ap.parse_args()
     os.makedirs(args.figdir, exist_ok=True)
-    heatmap_scores(args.combined, os.path.join(args.figdir, "heatmap_scores.png"))
     lollipop_composites(args.composites, os.path.join(args.figdir, "composite_distances.png"))
     print("[plots] wrote figures")
