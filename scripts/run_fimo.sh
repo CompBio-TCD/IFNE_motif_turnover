@@ -1,25 +1,63 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: bash scripts/run_fimo.sh <species> <motif_file> <fasta> <outdir> [background]
-species="${1}"
-motifs="${2}"
-fasta="${3}"
-outdir="${4}"
-bg="${5:-}"
+if [[ $# -lt 5 ]]; then
+  echo "Usage: $0 <species> <source> <motif_file> <fasta> <outdir> [background]" >&2
+  exit 2
+fi
+
+species="$1"
+source="$2"
+motifs="$3"
+fasta="$4"
+outdir="$5"
+bg="${6:-}"
 
 mkdir -p "${outdir}"
 
-# FIMO parameters
-PVAL="$(python -c 'import yaml,sys; print(yaml.safe_load(open("config/config.yaml"))["fimo"]["p_value"])')"
-# If you don't have python-yaml, set PVAL manually above.
+# Read p-value threshold from config (fallback if yaml not available)
+PVAL="$(python - <<'PY'
+import yaml
+print(yaml.safe_load(open("../config/config.yaml"))["fimo"].get("p_value","1e-3"))
+PY
+ 2>/dev/null || true)"
+PVAL="${PVAL:-1e-3}"
 
-cmd=(fimo --verbosity 1 --thresh "${PVAL}")
+motif_base="$(basename "${motifs%.*}")"
+run_dir="${outdir}/.fimo_tmp_${species}__${source}__${motif_base}"
+
+rm -rf "${run_dir}"
+mkdir -p "${run_dir}"
+
+cmd=(fimo --verbosity 1 --thresh "${PVAL}" --oc "${run_dir}")
 if [[ -n "${bg}" && -f "${bg}" ]]; then
   cmd+=( --bgfile "${bg}" )
 fi
 cmd+=( "${motifs}" "${fasta}" )
 
-# Write TSV
-"${cmd[@]}" > "${outdir}/${species}__$(basename "${motifs%.*}").tsv"
-echo "[run_fimo] Wrote ${outdir}/${species}__$(basename "${motifs%.*}").tsv"
+"${cmd[@]}"
+
+if [[ ! -f "${run_dir}/fimo.tsv" ]]; then
+  echo "[run_fimo] ERROR: fimo.tsv not found in ${run_dir}" >&2
+  exit 1
+fi
+
+# Strip comment lines starting with '#'
+clean_tmp="${run_dir}/fimo.clean.tsv"
+grep -v '^#' "${run_dir}/fimo.tsv" > "${clean_tmp}"
+
+# Determine TF label:
+# Prefer motif_alt_id from the first hit row (column 2).
+# If there are no hits, fall back to motif_base.
+tf_label="$(awk 'BEGIN{FS="\t"} NR==2 {print $2}' "${clean_tmp}" || true)"
+tf_label="${tf_label:-$motif_base}"
+
+# Sanitize TF label for filenames
+tf_safe="$(echo "${tf_label}" | sed 's/[^A-Za-z0-9_.-]/_/g')"
+
+out_tsv="${outdir}/${species}__${tf_safe}__${source}.tsv"
+mv "${clean_tmp}" "${out_tsv}"
+
+rm -rf "${run_dir}"
+
+echo "[run_fimo] Wrote ${out_tsv}"
