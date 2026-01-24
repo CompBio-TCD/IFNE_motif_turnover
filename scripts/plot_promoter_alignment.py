@@ -4,11 +4,15 @@ import numpy as np
 import json
 import pandas as pd 
 
-from Bio import AlignIO 
-from Bio import Phylo
+from Bio import AlignIO, Phylo
 from matplotlib.gridspec import GridSpec
 from collections import defaultdict
 from matplotlib.colors import ListedColormap, BoundaryNorm
+from pathlib import Path
+
+# Project root = parent of the scripts directory
+SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = SCRIPT_DIR.parent
 
 def plot_tree_and_multi_heatmaps(
     tree_newick,
@@ -29,13 +33,6 @@ def plot_tree_and_multi_heatmaps(
     """
     tfs = list(M_by_tf.keys()) if tf_order is None else [t for t in tf_order if t in M_by_tf]
     tfs = tfs[:max_tfs]
-
-    PLACENTAL_EXCLUDE = {
-        "monDom5",   # opossum
-        "macEug2",   # wallaby
-        "sarHar1",   # Tasmanian devil
-        "ornAna1",   # platypus
-    }
 
     # Common labels
     if id_to_common:
@@ -350,7 +347,7 @@ def dedupe_fimo_sites(rows):
             best[key] = r
     return list(best.values())
 
-with open("/home/nleathlm/workspace/ifne/data/trees/ucsc_genomes_official.json") as f:
+with open(str(PROJECT_ROOT / "data" / "trees" / "ucsc_genomes_official.json")) as f:
     data = json.load(f)
 
 genomes = data["ucscGenomes"]   # <-- this is the dict with ailMel1, hg38, etc.
@@ -532,7 +529,7 @@ def plot_presence_heatmap(P, tf_list, ylabels, out_png):
 # 1. LOAD SPECIES + ALIGNMENT
 # -------------------------------
 
-maf_path = os.path.expanduser("~/workspace/ifne/data/maf/IFNE_100way.maf")
+maf_path = PROJECT_ROOT / "data" / "maf" / "IFNE_100way.maf"
 print("Using MAF:", maf_path)
 
 species_list = get_species_from_maf(maf_path)
@@ -551,7 +548,9 @@ for sp in species_list:
 # 2. MAP FIMO HITS TO ALIGNMENT
 # -------------------------------
 
-FIMO_DIR = "/home/nleathlm/workspace/ifne/analysis/fimo_out/"   # wherever merge_tf outputs live
+FIMO_DIR = PROJECT_ROOT / "analysis" / "fimo_out"
+FIG_DIR = PROJECT_ROOT / "analysis" / "figures"
+FIG_DIR.mkdir(exist_ok=True, parents=True)
 TF_NAME = "PGR"  # or whichever TF you want
 
 fimo_rows = load_tf_calls_from_merge_all(FIMO_DIR, species_list)
@@ -565,12 +564,11 @@ print("Example row:", fimo_rows[0] if fimo_rows else "None")
 # 3. GET TREE ORDER 
 # -------------------------------
 
-tree_path = "/home/nleathlm/workspace/ifne/data/trees/hg38_100way.nh"
+tree_path = PROJECT_ROOT / "data" / "trees" / "hg38_100way.nh"
 
-ordered_species, tree = get_tree_leaf_order_biophylo(
-    tree_path,
-    species_list
-)
+ordered_species, tree = get_tree_leaf_order_biophylo(tree_path,species_list)
+PLACENTAL_EXCLUDE = {"monDom5", "macEug2", "sarHar1", "ornAna1"}
+ordered_species = [sp for sp in ordered_species if sp not in PLACENTAL_EXCLUDE]
 
 print("Tree-ordered species:", ordered_species)
 
@@ -643,7 +641,7 @@ plot_tree_and_multi_heatmaps(
     tree_newick=tree_path,
     ordered_species=ordered_species,
     M_by_tf=M_by_tf,
-    out_png="/home/nleathlm/workspace/ifne/analysis/figures/ifne_tree_panels.png",
+    out_png = FIG_DIR / "ifne_tree_panels.png",
     id_to_common=id_to_common,
     tf_order=tfs_to_plot,
     max_tfs=len(tfs_to_plot),
@@ -654,12 +652,12 @@ plot_tree_and_multi_heatmaps(
 )
 
 P, tf_list, ylabels = build_presence_matrix(
-    fimo_dir="/home/nleathlm/workspace/ifne/analysis/fimo_out",
+    fimo_dir=str(PROJECT_ROOT / "analysis" / "fimo_out"),
     ordered_species=ordered_species,
     id_to_common=id_to_common
 )
 if P is not None:
     plot_presence_heatmap(
         P, tf_list, ylabels,
-        "/home/nleathlm/workspace/ifne/analysis/figures/ifne_presence_species_by_TF.png"
+        str(PROJECT_ROOT / "analysis" / "figures" / "ifne_presence_species_by_TF.png")
     )
