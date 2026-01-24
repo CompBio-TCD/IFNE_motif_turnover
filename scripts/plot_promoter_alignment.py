@@ -17,7 +17,7 @@ def plot_tree_and_multi_heatmaps(
     out_png,
     id_to_common=None,
     tf_order=None,
-    max_tfs=2,            # e.g. 2 for ESR1 + PGR
+    max_tfs=len(tfs_to_plot),            # e.g. 2 for ESR1 + PGR
     width_tree=1.0,
     width_tf=1.6,         # smaller = skinnier panels
     show_tree_tip_labels=False,
@@ -649,7 +649,7 @@ plot_tree_and_multi_heatmaps(
     out_png="/home/nleathlm/workspace/ifne/analysis/figures/ifne_tree_panels.png",
     id_to_common=id_to_common,
     tf_order=tfs_to_plot,
-    max_tfs=2,
+    max_tfs=len(tfs_to_plot),
     width_tree=1.0,
     width_tf=1.4,               #  TF panel size 
     show_tree_tip_labels=False,
