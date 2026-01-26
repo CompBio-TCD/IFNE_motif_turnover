@@ -15,7 +15,7 @@ It standardizes FIMO scans (PGR/AR/ER, ETS, Sp1, NF-κB, GATA, IRFs), computes *
    ```bash
    bash scripts/scan_all.sh
    ```
-   The
+   Then the next step creates a set of consensus TFs
    ```python
    python merge_tf.py
    ```
