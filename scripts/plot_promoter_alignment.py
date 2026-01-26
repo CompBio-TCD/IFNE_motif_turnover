@@ -623,7 +623,7 @@ print("[heatmap] wrote tree-ordered alignment heatmap")
 # -------------------------------
 
 # Build M matrices for the TFs you want
-tfs_to_plot = ["ESR1", "PGR","ELF1","ELF3"]
+tfs_to_plot = ["ESR1", "PGR","ELF1","ELF3"] # Change me!
 
 # Map all TF hits to the alignment
 scores_by_tf = map_hits_to_alignment_by_tf(
