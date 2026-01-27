@@ -31,9 +31,9 @@ It standardizes FIMO scans (PGR/AR/ER, ETS, Sp1, NF-κB, GATA, IRFs), computes *
 
 ## Included motifs (suggested JASPAR IDs)
 - **Steroid receptors**: PGR/NR3C3, AR/NR3C4, ESR1/ESR2 (ERE), GR
-- **Partners**: SP1, JUN/FOS (AP-1), NFKB1/RELA, GATA2/GATA3
+- **Partners**: SP1, JUN/FOS (AP-1), NFKB1/RELA, GATA2/GATA3, STAT1/5, NF-Y
 - **Epithelial program**: ETS1/ELK1/ELF3 (ETS family), GRHL/KLF, TEAD (YAP/TAZ)
-- Confirm absence of IRF/ISRE
+- Confirm absence of IRF1-9/ISRE
 
 See `motifs/MOTIF_CATALOG.md` for a starter list of IDs.
 
