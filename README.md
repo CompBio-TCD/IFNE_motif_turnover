@@ -10,8 +10,12 @@ It standardizes FIMO scans (PGR/AR/ER, ETS, Sp1, NF-κB, GATA, IRFs), computes *
 1. Place species promoter FASTAs in `data/fasta/`, one FASTA per species (e.g., `human.fa`, `mouse.fa`). Each FASTA should contain the **−1000..+100 bp** window relative to the species' TSS.
 2. PWM motif files should be in 'motifs/' folder. Run with both JASPARHOCOMOCO MEME-format files.      
 3. (Optional) Build species-specific 1st-order **Markov background** models (order=1) from each promoter set and save to `data/background/<species>.bg`. Otherwise, FIMO will estimate background.
-4. Edit `config/config.yaml` with your species list, paths, thresholds, and composite spacing rules.
-5. Run scans:
+4. Edit `config/config.yaml` with your species list, paths, thresholds, promoter window and composite spacing rules.
+5. Run script to parse MAF 
+  ```python
+python parse_maf.py --maf ../data/maf/IFNE_100way_vertebrates_hg38.maf --outdir ../data/fasta
+```
+7. Run scans:
    ```bash
    bash scripts/scan_all.sh
    ```
@@ -23,11 +27,11 @@ It standardizes FIMO scans (PGR/AR/ER, ETS, Sp1, NF-κB, GATA, IRFs), computes *
    ```python
    python plot_promoter_alignment.py
    ```
-7. Open the notebook:
+8. Open the notebook:
    ```bash
    jupyter lab notebooks/IFNE_motif_turnover.ipynb
    ```
-8. The notebook parses FIMO TSVs from `data/fimo_out/`, builds a composite module table and produces publication-ready plots.
+9. The notebook parses FIMO TSVs from `data/fimo_out/`, builds a composite module table and produces publication-ready plots.
 
 ## Included motifs (suggested JASPAR IDs)
 - **Steroid receptors**: PGR/NR3C3, AR/NR3C4, ESR1/ESR2 (ERE), GR
