@@ -1,6 +1,6 @@
-# IFNE promoter motif turnover & hormone-modulation analysis
+# Interferon promoter motif turnover & hormone-modulation analysis
 
-This repository is a scaffold to quantify **motif turnover** across mammals in the *IFNE* promoter and relate it to **hormone modulation**.
+This repository is a scaffold to quantify **motif turnover** across mammals in *IFN* promoter regions and relate it to **hormone modulation**.
 It standardizes FIMO scans (PGR/AR/ER, ETS, Sp1, NF-κB, GATA, IRFs), computes **composite modules**, and derives **gain/loss** across a phylogeny, with figures (heatmaps & lollipop maps).
 
 > You will need the **MEME Suite** (FIMO) installed locally and motif PWMs (JASPAR/HOCOMOCO). The code does **not** download or run FIMO here.
@@ -13,7 +13,7 @@ It standardizes FIMO scans (PGR/AR/ER, ETS, Sp1, NF-κB, GATA, IRFs), computes *
 4. Edit `config/config.yaml` with your species list, paths, thresholds, promoter window and composite spacing rules.
 5. Run script to parse MAF 
   ```python
-python parse_maf.py --maf ../data/maf/IFNE_100way_vertebrates_hg38.maf --outdir ../data/fasta
+python parse_maf.py --maf ../data/maf/IFN*_100way_vertebrates_hg38.maf --outdir ../data/fasta
 ```
 7. Run scans:
    ```bash
@@ -29,7 +29,7 @@ python parse_maf.py --maf ../data/maf/IFNE_100way_vertebrates_hg38.maf --outdir 
    ```
 8. Open the notebook:
    ```bash
-   jupyter lab notebooks/IFNE_motif_turnover.ipynb
+   jupyter lab notebooks/IFN*_motif_turnover.ipynb
    ```
 9. The notebook parses FIMO TSVs from `data/fimo_out/`, builds a composite module table and produces publication-ready plots.
 
