@@ -1,0 +1,11 @@
+python make_promoter_figure.py \
+  --config ../config/config.yaml \
+  --ifne-maf ../data/maf/IFNE_100way.maf \
+  --ifne-fimo ../analysis/tables/IFNE_fimo_combined.tsv \
+  --ifna-maf ../data/maf/IFNA1_100way.maf \
+  --ifna-fimo ../analysis/tables/IFNA1_fimo_combined.tsv \
+  --ifnb-maf ../data/maf/IFNB_100way.maf \
+  --ifnb-fimo ../analysis/tables/IFNB_fimo_combined.tsv \
+  --tree ../data/trees/hg38_100way.nh \
+  --ucsc-json ../data/trees/ucsc_genomes_official.json \
+  --out-prefix ../analysis/figures/IFNE_promoter_figure
