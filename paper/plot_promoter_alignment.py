@@ -1,6 +1,4 @@
 """
-make_promoter_figure.py
-
 Publication 3-panel comparative promoter figure from the same
 MAF / tree / FIMO-style outputs used by the IFNE promoter pipeline.
 
