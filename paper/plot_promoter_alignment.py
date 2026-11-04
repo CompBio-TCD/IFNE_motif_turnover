@@ -1,7 +1,3 @@
-from pathlib import Path
-import textwrap, py_compile
-
-script = r'''#!/usr/bin/env python3
 """
 make_promoter_figure.py
 
@@ -1071,9 +1067,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-'''
-
-path = Path("/mnt/data/make_promoter_figure.py")
-path.write_text(script)
-py_compile.compile(str(path), doraise=True)
-print(path)
