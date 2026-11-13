@@ -6,7 +6,7 @@ Panels
 ------
 A  Motif prevalence across IFNE, IFNA1 and IFNB.
 B  Phylogeny + species-by-motif presence/absence matrices for IFNE, IFNA1, IFNB.
-C  Phylogeny + positional maps for selected IFNE motifs (default: ELF3, PGR, IRF1).
+C  Phylogeny + positional maps for selected IFNE motifs (default: ELF3, PGR, IRF1). # change to ELF5, add AP2C and GATA2/3
 
 Input expectations
 ------------------
