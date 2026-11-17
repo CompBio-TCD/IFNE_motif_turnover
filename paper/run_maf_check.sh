@@ -1,4 +1,4 @@
-python maf_check.py ../data/maf/IFNE_100way.maf \
+python maf_check.py ../data/maf/IFNE_100way_vertebrates_hg38.maf \
   --tsv-out ../analysis/qc/IFNE_maf_sanity.tsv
 
 python maf_check.py ../data/maf/IFNA1_100way.maf \
