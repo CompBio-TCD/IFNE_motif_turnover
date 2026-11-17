@@ -266,9 +266,9 @@ Exploratory screens included:
 
 Motif matches are interpreted as **predicted cis-regulatory elements**, not as evidence of transcription-factor binding or occupancy.
 
-## Relevant parameters
+## Relevant QC parameters
 
-Current QC parameters:
+Current parameters are:
 
 ```text
 minimum coverage vs hg38:        0.50
