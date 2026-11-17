@@ -13,8 +13,10 @@ It standardizes FIMO scans (PGR/AR/ER, ETS, Sp1, NF-κB, GATA, IRFs), computes *
 4. Edit `config/config.yaml` with your species list, paths, thresholds, promoter window and composite spacing rules.
 5. Run script to parse MAF 
   ```python
-python parse_maf.py --maf ../data/maf/IFN*_100way_vertebrates_hg38.maf --outdir ../data/fasta
-```
+python parse_maf.py \
+  -i ../data/maf/IFNE_100way.maf \
+  -o ../analysis/fasta/IFNE \
+  --keep-species ../analysis/qc/ifne_promoter_qc.kept.txt```
 7. Run scans:
    ```bash
    bash scripts/scan_all.sh
