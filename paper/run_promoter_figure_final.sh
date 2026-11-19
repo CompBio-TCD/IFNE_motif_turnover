@@ -1,0 +1,14 @@
+python make_promoter_figure_final.py \
+  --config ../config/config.yaml \
+  --ifne-maf ../data/maf/IFNE_100way_vertebrates_hg38.maf \
+  --ifne-fimo ../analysis/tables/IFNE_fimo_combined.tsv \
+  --ifne-keep-species ../analysis/qc/ifne_final.kept.txt \
+  --ifna-maf ../data/maf/IFNA1_100way_vertebrates_hg38.maf \
+  --ifna-fimo ../analysis/tables/IFNA1_fimo_combined.tsv \
+  --ifna-keep-species ../analysis/qc/ifna_final.kept.txt \
+  --ifnb-maf ../data/maf/IFNB_100way_vertebrates_hg38.maf \
+  --ifnb-fimo ../analysis/tables/IFNB_fimo_combined.tsv \
+  --ifnb-keep-species ../analysis/qc/ifnb_final.kept.txt \
+  --tree ../data/trees/hg38_100way.nh \
+  --ucsc-json ../data/trees/ucsc_genomes_official.json \
+  --out-prefix ../analysis/figures/IFNE_promoter_figure
