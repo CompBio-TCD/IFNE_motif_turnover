@@ -1,7 +1,3 @@
-from pathlib import Path
-import textwrap, py_compile
-
-script = r'''#!/usr/bin/env python3
 """
 maf_sanity_check.py
 
@@ -556,14 +552,3 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
-'''
-
-path = Path("/mnt/data/maf_sanity_check.py")
-path.write_text(script)
-py_compile.compile(str(path), doraise=True)
-print(path)
-
-# smoke-test help
-import subprocess, sys
-res = subprocess.run([sys.executable, str(path), "--help"], capture_output=True, text=True)
-print(res.stdout[:3500])
